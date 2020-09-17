@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 
 const userRouter = require('./routes/users')
 const itemRouter = require('./routes/items')
+const typeRouter = require('./routes/types')
 
 const app = express()
 const port = process.env.port || 5000
@@ -26,6 +27,7 @@ connection.on('open', () => {
 
 app.use('/users', userRouter)
 app.use('/items', itemRouter)
+app.use('/types', typeRouter)
 
 app.listen(port, () => {
         console.log(`Server listening on port ${port}`)
