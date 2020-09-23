@@ -3,7 +3,7 @@ import axios from 'axios'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { loginUser } from '../../actions/authActions'
+import { loginUser, logoutUser } from '../../redux/actions/authActions'
 import classnames from 'classnames'
 
 
@@ -21,13 +21,13 @@ class LoginUser extends Component {
 
     componentDidMount() {
         if (this.props.auth.isAuthenticated) {
-            this.props.history.push('/dashboard')
+            window.location = '/'
         }
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.auth.isAuthenticated) {
-            this.props.history.push('/dashboard')
+            window.location = '/'
         }
 
         if (nextProps.errors) {

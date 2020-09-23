@@ -3,7 +3,7 @@ import axios from 'axios'
 import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { registerUser } from '../../actions/authActions'
+import { registerUser } from '../../redux/actions/authActions'
 import classnames from 'classnames'
 
 class CreateUser extends Component {
@@ -87,7 +87,7 @@ class CreateUser extends Component {
                     <div className='form-group'>
                         <label>Name:</label>
                         <input type='text' className={classnames('form-control', {invalid: errors.name})} value={this.state.name} onChange={this.onChangeName}></input>
-                            <span className='text-danger'>{errors.name}</span>
+                        <span className='text-danger'>{errors.name}</span>
                     </div>
 
                     <div className='form-group'>
