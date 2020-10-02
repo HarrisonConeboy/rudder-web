@@ -10,9 +10,9 @@ import store from './store'
 import Navbar from './components/navigation/navbar.component'
 import CreateUser from './components/auth/create-user.component'
 import LoginUser from './components/auth/login-user.component'
-import FrontPage from './components/layout/front-page.component'
+import FrontPage from './components/layout/front-page/front-page.component'
 import PrivateRoute from './components/private-routes/PrivateRoute'
-import Dashboard from './components/layout/dashboard.component'
+import Dashboard from './components/layout/temp/dashboard.component'
 
 
 export default class App extends Component {

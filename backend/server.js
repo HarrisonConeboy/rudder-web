@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const passport = require('passport')
 
 const userRouter = require('./routes/users')
+const flatRouter = require('./routes/flats')
 // const itemRouter = require('./routes/items')
 // const typeRouter = require('./routes/types')
 
@@ -32,6 +33,7 @@ app.use(passport.initialize())
 require('./config/passport')(passport)
 
 app.use('/users', userRouter)
+app.use('/flats', flatRouter)
 // app.use('/items', itemRouter)
 // app.use('/types', typeRouter)
 
