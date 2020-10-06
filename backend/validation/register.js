@@ -5,14 +5,20 @@ const isEmpty = require('is-empty')
 module.exports = (data) => {
     let errors = {}
 
-    data.name = !isEmpty(data.name) ? data.name : ''
+    data.firstname = !isEmpty(data.firstname) ? data.firstname : ''
+    data.lastname = !isEmpty(data.lastname) ? data.lastname : ''
     data.email = !isEmpty(data.email) ? data.email : ''
     data.password = !isEmpty(data.password) ? data.password : ''
     data.password2 = !isEmpty(data.password2) ? data.password : ''
 
     // Name check
-    if (valid.isEmpty(data.name)) {
-        errors.name = 'Name field cannot be empty'
+    if (valid.isEmpty(data.firstname)) {
+        errors.firstname = 'Name field cannot be empty'
+    }
+
+    // Name check
+    if (valid.isEmpty(data.lastname)) {
+        errors.lastname = 'Name field cannot be empty'
     }
 
     // Email check
