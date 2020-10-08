@@ -1,72 +1,16 @@
 const router = require('express').Router()
-const database = require('../utils/pool')()
-const bcrypt = require('bcryptjs')
-const sqlstring = require('sqlstring')
+const database = require('../database/utils/pool')()
 const jwt = require('jsonwebtoken')
 
-const validateRegistration = require('../validation/register')
-const validateLogin = require('../validation/login')
+const registerHandler = require('../handlers/register.handler')
 
 require('dotenv').config()
 const key = process.env.SECRET
 
 
-router.route('/register')
+router.use('/register', registerHandler)
     .post((req, res) => {
-        let { errors, isValid } = validateRegistration(req.body)
-        if (!isValid) { return res.status(400).json(errors) }
-
-        database.query(`SELECT * FROM users WHERE email = ${sqlstring.escape(req.body.email)}`, (err, value) => {
-            if (err) { 
-                return res.status(400).json(err)
-            }
-            console.log(value)
-            if (value) {
-                errors.emailused = 'User with that email exists'
-                return res.status(400).send(errors)
-            }
-        })
-
-        bcrypt.genSalt(10)
-            .then(salt => {
-                bcrypt.hash(req.body.password, salt)
-                    .then(hash => {
-                        database.query(`INSERT INTO users (firstname, lastname, email)
-                                        VALUES (${req.body.firstname}, ${req.body.lastname}, ${req.body.email});
-                                        INSERT INTO creds (password)
-                                        VALUES (${hash});`)
-                            .then(result => {
-                                res.send('User added')
-                            })
-                    })
-            })
-            .catch(err => res.status(400).send(err))
-
-        // Old noSQL method
-        // User.findOne({email: req.body.email})
-        //     .then(user => {
-        //         if (user) {
-        //             return res.status(400).send('User with that email already exists')
-        //         } else {
-        //             const newUser = new User({
-        //                 name: req.body.name,
-        //                 email: req.body.email,
-        //                 password: req.body.password
-        //             })
-
-        //             bcrypt.genSalt(10, (err, salt) => {
-        //                 if (err) { throw err }
-        //                 bcrypt.hash(newUser.password, salt, (err, hash) => {
-        //                     if (err) { throw err }
-        //                     newUser.password = hash
-        //                     newUser.save()
-        //                         .then(() => res.send('New user registered'))
-        //                         .catch(err => res.status(400).send(err))
-        //                 })
-        //             })
-                    
-        //         }
-        //     })
+        registerHandler(req, res, database)
     })
 
 // router.route('/login')

@@ -15,8 +15,6 @@ app.use(cors())
 app.use(express.urlencoded({extended: false}))
 app.use(express.json())
 
-require('dotenv').config()
-
 // mongoose.connect(uri, {useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true})
 //     .catch(err => {console.log(err)})
 
