@@ -1,5 +1,4 @@
 const isEmpty = require('is-empty')
-const Promise = require('promise')
 
 /**
  * Used to determine if an email is currently already used by a user in the database
@@ -7,8 +6,9 @@ const Promise = require('promise')
  * @param {Pool} database Database pool object used to search
  * @returns {errors, isValid} Returns errors object with the emailused property if found in database, and an isValid property to determine if the email was found. isValid is true if no email found.
  */
-module.exports = async(email, database) => {
-    await database.query(`SELECT * FROM users WHERE email = $1`, [email]).then(value => {
+module.exports = (email, database) => {
+    return database.query(`SELECT * FROM users WHERE email = $1`, [email]).then(value => {
+
         let errors = {}
 
         if (value.rows.length) {

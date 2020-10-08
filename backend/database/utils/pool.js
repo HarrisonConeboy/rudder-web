@@ -11,8 +11,5 @@ const pool = new Pool({
 })
 
 module.exports = () => { 
-  pool.connect()
-    .then(res => console.log('Connected to elephantsql database'))
-    .catch(err => console.log(err))
   return pool
 }

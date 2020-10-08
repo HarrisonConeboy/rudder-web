@@ -1,6 +1,5 @@
 const router = require('express').Router()
 const database = require('../database/utils/pool')()
-const jwt = require('jsonwebtoken')
 
 const registerHandler = require('../handlers/register.handler')
 
@@ -8,8 +7,8 @@ require('dotenv').config()
 const key = process.env.SECRET
 
 
-router.use('/register', registerHandler)
-    .post((req, res) => {
+router.route('/register')
+    .post(async (req, res) => {
         registerHandler(req, res, database)
     })
 
