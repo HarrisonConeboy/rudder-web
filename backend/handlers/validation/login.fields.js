@@ -1,9 +1,16 @@
-const valid = require('validator')
 const isEmpty = require('is-empty')
+const valid = require('validator')
 
-module.exports = (data) => {
+const database = require('../../database/utils/pool')()
+
+/**
+ * Middleware for checking the login fields in req.body and setting the req.database property
+ */
+module.exports = (req, res, next) => {
+    let data = req.body
     let errors = {}
 
+    // Replace empty fields with empty strings so that validator can process them
     data.email = !isEmpty(data.email) ? data.email : ''
     data.password = !isEmpty(data.password) ? data.password : ''
 
@@ -19,8 +26,11 @@ module.exports = (data) => {
         errors.password = 'Password field cannot be empty'
     }
 
-    return {
-        errors,
-        isValid: isEmpty(errors)
+    if (!isEmpty(errors)) {
+        res.status(400).json(errors)
+        return next('router')
+
     }
+    req.database = database
+    next()
 }

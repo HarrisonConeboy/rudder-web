@@ -1,56 +1,28 @@
 const router = require('express').Router()
-const database = require('../database/utils/pool')()
 
-const registerHandler = require('../handlers/register.handler')
+// Register middleware
+const registerFields = require('../handlers/validation/register.fields')
+const emailDuplicate = require('../handlers/database/validation/email.duplicate')
+const user_credInsert = require('../handlers/database/insert/user_cred.insert')
 
-require('dotenv').config()
-const key = process.env.SECRET
+// Login middleware
+const loginFields = require('../handlers/validation/login.fields')
+const userRetrieve = require('../handlers/database/retrieve/user.retrieve')
+const passwordCompare = require('../handlers/validation/password.compare')
+const jwtoken = require('../handlers/returning/jwtoken')
 
 
+// Routes
 router.route('/register')
-    .post(async (req, res) => {
-        registerHandler(req, res, database)
-    })
+    .post(registerFields, emailDuplicate, user_credInsert)
 
-// router.route('/login')
-//     .post((req, res) => {
-//         let { errors, isValid } = validateLogin(req.body)
-//         if (!isValid) { return res.status(400).json(errors) }
+router.route('/login')
+    .post(loginFields, userRetrieve, passwordCompare, jwtoken)
 
-//         User.findOne({email: req.body.email})
-//             .then(user => {
-//                 if (!user) {
-//                     errors.emailnotfound = 'User not found :('
-//                     return res.status(400).json(errors)
-//                 }
-//                 bcrypt.compare(req.body.password, user.password)
-//                     .then(isMatch => {
-//                         if (isMatch) {
-//                             const payload = {
-//                                 id: user.id,
-//                                 name: user.name
-//                             }
 
-//                             jwt.sign(
-//                                 payload,
-//                                 key,
-//                                 {
-//                                     expiresIn: 31556926
-//                                 },
-//                                 (err, token) => {
-//                                     res.json({
-//                                         success: true,
-//                                         token: `Bearer ${token}`
-//                                     })
-//                                 }
-//                             )
-//                         } else {
-//                             errors.passwordincorrect = 'Incorrect password :('
-//                             return res.status(400).json(errors)
-//                         }
-//                     })
-//             })
-//     })
+
+// More routes to add >>>>>
+////////////////////////////////////////////////////////////////////////////
 
 // router.route('/requests/accept/friend')
 //     .post((req, res) => {

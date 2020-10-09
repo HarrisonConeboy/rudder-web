@@ -10,6 +10,8 @@ const pool = new Pool({
   port: process.env.port
 })
 
+console.log('Pool created for elephantsql database')
+
 module.exports = () => { 
   return pool
 }
