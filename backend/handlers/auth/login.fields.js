@@ -1,12 +1,12 @@
 const isEmpty = require('is-empty')
 const valid = require('validator')
 
-const database = require('../../database/utils/pool')()
+const database = require('../../utils/pool')()
 
 /**
  * Middleware for checking the login fields in req.body and setting the req.database property
  */
-module.exports = (req, res, next) => {
+loginFields = (req, res, next) => {
     let data = req.body
     let errors = {}
 

@@ -1,25 +1,34 @@
 const router = require('express').Router()
 
 // Register middleware
-const registerFields = require('../handlers/validation/register.fields')
+const registerFields = require('../handlers/auth/register.fields')
 const emailDuplicate = require('../handlers/database/validation/email.duplicate')
-const user_credInsert = require('../handlers/database/insert/user_cred.insert')
+const user_credInsert = require('../handlers/database/write/user_cred.write')
 
 // Login middleware
-const loginFields = require('../handlers/validation/login.fields')
-const userRetrieve = require('../handlers/database/retrieve/user.retrieve')
-const passwordCompare = require('../handlers/validation/password.compare')
-const jwtoken = require('../handlers/returning/jwtoken')
+const loginFields = require('../handlers/auth/login.fields')
+const userRetrieve = require('../handlers/database/read/user.read')
+const passwordCompare = require('../handlers/auth/password.compare')
+const jwtoken = require('../handlers/token/jwtoken.create')
 
 
-// Routes
-router.route('/register')
+const deleteFriend = require('../handlers/friends/delete/fields.check')
+
+// Authentication Routes
+router.route('auth/register')
     .post(registerFields, emailDuplicate, user_credInsert)
 
-router.route('/login')
-    .post(loginFields, userRetrieve, passwordCompare, jwtoken)
+router.route('auth/login')
+    .post(loginFields, [userRetrieve, passwordCompare], jwtoken)
 
 
+router.route('/friends')
+    .post()
+    .delete(deleteFriend)
+
+router.route('/flats')
+    .post()
+    .delete()
 
 // More routes to add >>>>>
 ////////////////////////////////////////////////////////////////////////////

@@ -1,7 +1,7 @@
 const isEmpty = require('is-empty')
 const valid = require('validator')
 
-const database = require('../../database/utils/pool')()
+const database = require('../../utils/pool')()
 
 /**
  * Middleware for checking the registration fields in the req.body and setting the req.database property
